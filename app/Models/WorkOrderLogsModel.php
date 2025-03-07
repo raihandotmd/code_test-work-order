@@ -13,6 +13,7 @@ class WorkOrderLogsModel extends Model
     public $incrementing = false;
     public $timestamps = ['created_at'];
     const UPDATED_AT = null;
+    protected $table = 'work_orders_logs';
 
     protected $fillable = [
         'work_order_id',

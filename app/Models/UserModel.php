@@ -12,6 +12,8 @@ class UserModel extends Authenticatable
 {
     use HasUuids,HasFactory, Notifiable;
 
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *

@@ -11,6 +11,7 @@ class WorkOrdersModel extends Model
     use HasUuids;
 
     public $incrementing = false;
+    protected $table = 'work_orders';
 
     protected $fillable = [
         'work_order_id',
