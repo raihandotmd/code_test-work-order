@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserModel;
+use App\Models\UserRolesModel;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +21,17 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        // Get all names of roles
+        $roles = UserRolesModel::all()->map(function ($role) {
+            return [
+                'id' => $role->id,
+                'name' => $role->name,
+            ];
+        });
+
+        return Inertia::render('Auth/Register', [
+            'roles' => $roles,
+        ]);
     }
 
     /**
@@ -31,7 +42,8 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'username' => 'required|string|max:32',
+            // for username, check not allowed for spaces
+            'username' => 'required|string|max:255|regex:/^\S*$/u|unique:users',
             'name' => 'required|string|max:255',
             'role_id' => 'required|uuid',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
