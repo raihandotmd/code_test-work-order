@@ -2,23 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\UserRolesModel;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        UserRolesModel::factory()->create([
-            'name' => 'Production Manager',
+        $this->call([
+            UserRolesModelSeeder::class,
+            UserModelSeeder::class,
+            WorkOrdersModelSeeder::class,
         ]);
-        UserRolesModel::factory()->create([
-            'name' => 'Operator',
-        ]);
-
     }
 }
-

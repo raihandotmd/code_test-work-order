@@ -16,6 +16,8 @@ class UserRolesModel extends Model
     public $incrementing = false;
     public $timestamps = false;
 
+    public const PRODUCTION_MANAGER = 'Production Manager';
+    public const OPERATOR = 'Operator';
     protected $fillable = [
         'name',
     ];
@@ -27,7 +29,28 @@ class UserRolesModel extends Model
     */
     public function users(): HasMany
     {
-        return $this->hasMany(User::class, 'role_uid', 'id');
+        return $this->hasMany(UserModel::class, 'role_id', 'id');
+    }
+
+    public function hasPermission(string $action): bool
+    {
+        switch ($this->name) {
+            case self::PRODUCTION_MANAGER:
+                return in_array($action, [
+                    'create-work-order',
+                    'update-work-order',
+                    'view-work-orders',
+                    'filter-work-orders',
+                    'assign-operator'
+                ]);
+            case self::OPERATOR:
+                return in_array($action, [
+                    'view-assigned-work-orders',
+                    'update-work-order-status'
+                ]);
+            default:
+                return false;
+        }
     }
 }
 

@@ -23,20 +23,12 @@ class WorkOrderLogsModel extends Model
         'notes',
     ];
 
-    /**
-     * Relasi dengan table users bagian operator
-     * @return BelongsTo
-     */
-    public function getWorkOrders(): BelongsTo
+    public function getWorkOrder(): BelongsTo
     {
         return $this->belongsTo(WorkOrdersModel::class, 'work_order_id');
     }
 
-    /**
-     * Relasi dengan table users pembuat work orders
-     * @return BelongsTo
-     */
-    public function getUserChanged(): BelongsTo
+    public function getChangedBy(): BelongsTo
     {
         return $this->belongsTo(UserModel::class, 'changed_by');
     }

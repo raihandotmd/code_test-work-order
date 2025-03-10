@@ -31,14 +31,14 @@ return new class extends Migration
 
         Schema::create('work_orders_logs', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('work_orders_id');
+            $table->uuid('work_order_id');
             $table->string('new_status');
-            $table->string('previous_status');
+            $table->string('previous_status')->nullable();
             $table->uuid('changed_by');
             $table->string('notes');
             $table->dateTime('created_at');
 
-            $table->foreign('work_orders_id')
+            $table->foreign('work_order_id')
                 ->references('id')
                 ->on('work_orders')
                 ->noActionOnDelete();
